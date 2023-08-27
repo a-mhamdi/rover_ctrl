@@ -26,7 +26,7 @@ find_package(ament_cmake REQUIRED COMPONENTS
 # find_package(<dependency> REQUIRED)
 
 find_package(rclcpp REQUIRED)
-find_package(rclpy REQUIRED)
+
 find_package(std_msgs REQUIRED)
 
 # Install rviz configuration, meshes, urdf and launch files.
