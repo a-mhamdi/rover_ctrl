@@ -1,35 +1,30 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.5)
 project(rover_ctrl)
+
+# Default to C99
+if(NOT CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 99)
+endif()
+
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 # find dependencies
-find_package(ament_cmake REQUIRED COMPONENTS
-  actionlib
-  amcl
-  control_msgs
-  controller_manager
-  gmapping
-  move_base
-  roscpp
-  rospy
-  std_msgs
-  std_srvs
-  tf
-  tf2
-)
+find_package(ament_cmake REQUIRED)
 
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-
 # Install rviz configuration, meshes, urdf and launch files.
-install(DIRECTORY config meshes urdf launch
+install(
+  DIRECTORY config description launch meshes worlds
   DESTINATION share/${PROJECT_NAME}/
 )
 

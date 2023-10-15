@@ -36,14 +36,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0.03 0 -0.026"/>
       <geometry>
-        <mesh filename="package://rover_ctrl/meshes/Chasis.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file://$(find rover_ctrl)/meshes/Chasis.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="olivegreen"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0.03 0 -0.026" />
       <geometry>
-        <mesh filename="package://rover_ctrl/meshes/Chasis.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="file://$(find rover_ctrl)/meshes/Chasis.stl" scale="0.001 0.001 0.001" />
       </geometry>
     </collision>
   </link>
@@ -58,14 +58,14 @@
     <visual>
       <origin rpy="0 0 -1.5708" xyz="0.084 -0.242 -0.098"/>
       <geometry>
-        <mesh filename="package://rover_ctrl/meshes/RpLidar.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file://$(find rover_ctrl)/meshes/RpLidar.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="blue"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0.242 0.084 -0.098" />
       <geometry>
-        <mesh filename="package://rover_ctrl/meshes/RpLidar.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="file://$(find rover_ctrl)/meshes/RpLidar.stl" scale="0.001 0.001 0.001" />
       </geometry>
     </collision>
   </link>
@@ -83,14 +83,14 @@
       <visual>
         <origin rpy="0 0 0" xyz="${x} 0.059 -0.04"/>
         <geometry>
-          <mesh filename="package://rover_ctrl/meshes/Wheel.stl" scale="0.001 0.001 0.001"/>
+          <mesh filename="file://$(find rover_ctrl)/meshes/Wheel.stl" scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="black"/>
       </visual>
       <collision>
         <origin rpy="0 0 0" xyz="${x} 0.059 -0.04"/>
         <geometry>
-          <mesh filename="package://rover_ctrl/meshes/Wheel.stl" scale="0.001 0.001 0.001" />
+          <mesh filename="file://$(find rover_ctrl)/meshes/Wheel.stl" scale="0.001 0.001 0.001" />
         </geometry>
       </collision>
     </link>

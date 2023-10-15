@@ -19,22 +19,22 @@ def generate_launch_description():
         pkg_share,
         'config/r2d2.rviz')
 
-    default_urdf_model_path = os.path.join(
+    default_description_model_path = os.path.join(
         pkg_share,
-        'urdf/rover.urdf')
+        'description/rover.urdf')
 
     # Launch configuration variables specific to simulation
     gui = LaunchConfiguration('gui')
-    urdf_model = LaunchConfiguration('urdf_model')
+    description_model = LaunchConfiguration('description_model')
     rviz_config_file = LaunchConfiguration('rviz_config_file')
     use_robot_state_pub = LaunchConfiguration('use_robot_state_pub')
     use_rviz = LaunchConfiguration('use_rviz')
     use_sim_time = LaunchConfiguration('use_sim_time')
    
     # Declare the launch arguments
-    declare_urdf_model_path_cmd = DeclareLaunchArgument(
-            name='urdf_model',
-            default_value=default_urdf_model_path,
+    declare_description_model_path_cmd = DeclareLaunchArgument(
+            name='description_model',
+            default_value=default_description_model_path,
             description='Absolute path to robot urdf file')
 
     declare_rviz_config_file_cmd = DeclareLaunchArgument(
@@ -84,8 +84,8 @@ def generate_launch_description():
             package='robot_state_publisher',
             executable='robot_state_publisher',
             parameters=[{'use_sim_time': use_sim_time,
-                'robot_description': Command(['xacro ', urdf_model])}],
-            arguments=[default_urdf_model_path])
+                'robot_description': Command(['xacro ', description_model])}],
+            arguments=[default_description_model_path])
 
     # Launch RViz
     start_rviz_cmd = Node(
@@ -100,7 +100,7 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     # Declare the launch options
-    ld.add_action(declare_urdf_model_path_cmd)
+    ld.add_action(declare_description_model_path_cmd)
     ld.add_action(declare_rviz_config_file_cmd)
     ld.add_action(declare_use_joint_state_publisher_cmd)
     ld.add_action(declare_use_robot_state_pub_cmd)
