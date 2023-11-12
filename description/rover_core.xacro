@@ -18,6 +18,7 @@
     <xacro:property name="caster_wheel_mass" value="0.01"/>
     <xacro:property name="caster_wheel_offset_x" value="0.006557"/>
     <xacro:property name="caster_wheel_offset_z" value="0.097098"/>
+    
     <material name="white">
         <color rgba="1 1 1 1" />
     </material>
@@ -111,9 +112,12 @@
 
     <gazebo reference="left_wheel">
         <material>Gazebo/Black</material>
-        <turnGravityOff>true</turnGravityOff>
+          <mu1 value="1.0"/>
+          <mu2 value="1.0"/>
+          <kp  value="10000000.0" />
+          <kd  value="1.0" />
+          <fdir1 value="1 0 0"/>
     </gazebo>
-
 
 
 
@@ -148,10 +152,14 @@
 
     <gazebo reference="right_wheel">
         <material>Gazebo/Black</material>
-        <turnGravityOff>true</turnGravityOff>
+          <mu1 value="10.0"/>
+          <mu2 value="10.0"/>
+          <kp  value="10000000.0" />
+          <kd  value="1.0" />
+          <fdir1 value="1 0 0"/>
     </gazebo>
 
-<!-- CASTER WHEEL LINK -->
+    <!-- CASTER WHEEL LINK 
 
     <joint name="caster_wheel_joint" type="fixed">
         <parent link="chassis"/>
@@ -179,9 +187,10 @@
 
     <gazebo reference="caster_wheel">
         <material>Gazebo/White</material>
-        <mu1 value="0.001"/>
-        <mu2 value="0.001"/>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
     </gazebo>
+    -->
 
     <!-- LIDAR LINK -->
 
@@ -213,7 +222,6 @@
 
     <gazebo reference="laser_frame">
         <material>Gazebo/Blue</material>
-        <turnGravityOff>true</turnGravityOff>
     </gazebo>
 
 </robot>

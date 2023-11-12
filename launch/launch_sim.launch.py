@@ -20,8 +20,12 @@ def generate_launch_description():
         )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
     )
 
+    # Set the path to the world file
+    world_file_name = 'cafe.world'
+    world_path = os.path.join(pkg_share, 'worlds', world_file_name)
+  
     gazebo_params_file = os.path.join(get_package_share_directory(
-        package_name), 'config', 'gazebo_params.yaml')
+        package_name), 'params', 'gazebo.yaml')
 
     # Include the Gazebo launch file, provided by the gazebo_ros package
     gazebo = IncludeLaunchDescription(
@@ -48,7 +52,6 @@ def generate_launch_description():
         arguments=["joint_broad"],
     )
 
-    # Launch them all!
     return LaunchDescription([
         rsp,
         gazebo,
