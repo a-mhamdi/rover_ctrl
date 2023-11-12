@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="inertial_macros.xacro"/>
+
+    <xacro:property name="chassis_length" value="0.335"/>
+    <xacro:property name="chassis_width" value="0.265"/>
+    <xacro:property name="chassis_height" value="0.138"/>
+    <xacro:property name="chassis_mass" value="1.0"/>
+    <xacro:property name="wheel_radius" value="0.04"/>
+    <xacro:property name="wheel_thickness" value="0.026"/>
+    <xacro:property name="wheel_mass" value="0.05"/>
+    <xacro:property name="wheel_offset_x" value="0.226"/>
+    <xacro:property name="wheel_offset_y" value="0.1485"/>
+    <xacro:property name="wheel_offset_z" value="0.01"/>
+
+    <xacro:property name="caster_wheel_radius" value="0.01"/>
+    <xacro:property name="caster_wheel_mass" value="0.01"/>
+    <xacro:property name="caster_wheel_offset_x" value="0.006557"/>
+    <xacro:property name="caster_wheel_offset_z" value="0.097098"/>
+    <material name="white">
+        <color rgba="1 1 1 1" />
+    </material>
+
+    <material name="olivegreen">
+        <color rgba="0.729 0.722 0.424 1.0"/>
+    </material>
+
+    <material name="blue">
+        <color rgba="0.2 0.2 1 1"/>
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+
+    <!-- BASE LINK -->
+
+    <link name="base_link">
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0.0005"/>
+            <geometry>
+                <box size="0.22 0.22 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="base_link_joint" type="fixed">
+        <origin rpy="0 0 -1.5708" xyz="0 0 0.026"/>
+        <parent link="base_link"/>
+        <child link="chassis"/>
+    </joint>
+
+
+
+
+    <!-- CHASSIS LINK -->
+
+    <link name="chassis">
+        <visual>
+            <origin rpy="0 0 0" xyz="0.03 0 -0.02"/>
+            <geometry>
+                <mesh filename="file://$(find rover_ctrl)/meshes/Chasis.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="olivegreen"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0.03 0 -0.02"/>
+            <geometry>
+                <mesh filename="file://$(find rover_ctrl)/meshes/Chasis.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_height}" >
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <gazebo reference="chassis">
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+    <!-- LEFT WHEEL LINK -->
+
+    <joint name="left_wheel_joint" type="continuous">
+        <parent link="chassis"/>
+        <child link="left_wheel"/>
+        <origin rpy="0 0 0" xyz="0.08 -0.06 0"/>
+        <axis xyz="-1 0 0"/>
+    </joint>
+
+    <link name="left_wheel">
+        <visual>
+            <origin rpy="0 0 0" xyz="0.133 0.059 -0.0435"/>
+            <geometry>
+                <mesh filename="file://$(find rover_ctrl)/meshes/Wheel.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0.133 0.059 -0.0435"/>
+            <geometry>
+                <mesh filename="file://$(find rover_ctrl)/meshes/Wheel.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="left_wheel">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+
+
+
+    <!-- RIGHT WHEEL LINK -->
+
+    <joint name="right_wheel_joint" type="continuous">
+        <parent link="chassis"/>
+        <child link="right_wheel"/>
+        <!-- origin xyz="0 ${-wheel_offset_y} 0" rpy="${pi/2} 0 0" / -->
+        <origin rpy="0 0 0" xyz="-0.08 -0.06 0"/>
+        <axis xyz="-1 0 0"/>
+    </joint>
+
+    <link name="right_wheel">
+        <visual>
+            <origin rpy="0 0 0" xyz="0.11 0.059 -0.045"/>
+            <geometry>
+                <mesh filename="file://$(find rover_ctrl)/meshes/Wheel.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0.11 0.059 -0.045"/>
+            <geometry>
+                <mesh filename="file://$(find rover_ctrl)/meshes/Wheel.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="right_wheel">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+	<!-- CASTER WHEEL LINK -->
+	
+	
+    <!-- LIDAR LINK -->
+
+    <joint name="laser_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="laser_frame"/>
+        <origin rpy="0 0 1.5708" xyz="0 0.040 0.090"/>
+    </joint>
+
+    <link name="laser_frame">
+        <visual>
+            <origin rpy="0 0 -1.5708" xyz="0.084 -0.242 -0.09"/>
+            <geometry>
+                <mesh filename="file://$(find rover_ctrl)/meshes/RpLidar.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0.242 0.084 -0.09"/>
+            <geometry>
+                <mesh filename="file://$(find rover_ctrl)/meshes/RpLidar.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="0.04" radius="0.05">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+
+    <gazebo reference="laser_frame">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+</robot>
