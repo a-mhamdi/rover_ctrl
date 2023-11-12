@@ -21,7 +21,7 @@ def generate_launch_description():
 
     default_urdf_model_path = os.path.join(
         pkg_share,
-        'urdf/rover.urdf')
+        'description/rover.urdf')
 
     # Launch configuration variables specific to simulation
     gui = LaunchConfiguration('gui')

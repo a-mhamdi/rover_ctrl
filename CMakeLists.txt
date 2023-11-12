@@ -25,11 +25,8 @@ find_package(ament_cmake REQUIRED COMPONENTS
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-
-# Install rviz configuration, meshes, urdf and launch files.
-install(DIRECTORY config meshes urdf launch
+# Install configuration, meshes, urdf and launch files.
+install(DIRECTORY config description launch meshes params worlds
   DESTINATION share/${PROJECT_NAME}/
 )
 
