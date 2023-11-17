@@ -11,14 +11,38 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
 import xacro
+from ament_index_python.packages import get_package_share_directory
+
 
 def generate_launch_description():
 
     package_name = 'rover_ctrl'
-    
-    # Check if we're told to use sim time
+
+    # Set the path to the world file
+    world_file_name = 'maze.world'
+    pkg_share = get_package_share_directory(package_name)
+    world_file_name = 'maze.world'
+    world_path = os.path.join(pkg_share, 'worlds', world_file_name)
+
+    # Set the path to the SDF model files.
+    gazebo_models_path = os.path.join(pkg_share, 'worlds/models')
+    os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
+
+    # Set the path
+    declare_world_cmd = DeclareLaunchArgument(
+        name='world',
+        default_value=world_path,
+        description='Full path to the world model file to load'
+    )
+
     use_sim_time = LaunchConfiguration('use_sim_time')
     use_ros2_control = LaunchConfiguration('use_ros2_control')
+    world = LaunchConfiguration('world')
+
+    declare_world_cmd = DeclareLaunchArgument(
+        name='world',
+        default_value=world_path,
+        description='Full path to the world model file to load')
 
     # Process the URDF file
     pkg_path = os.path.join(get_package_share_directory('rover_ctrl'))
@@ -29,7 +53,7 @@ def generate_launch_description():
     # Create a robot_state_publisher node
     params = {'robot_description': robot_description_config,
               'use_sim_time': use_sim_time}
-              
+
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -44,7 +68,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([os.path.join(
             get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
         launch_arguments={
-            'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items()
+            'world': world, 'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items()
     )
 
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
@@ -63,7 +87,7 @@ def generate_launch_description():
              'joint_trajectory_controller'],
         output='screen'
     )
-    
+
     diff_drive_spawner = Node(
         package="controller_manager",
         executable="spawner",
@@ -79,13 +103,13 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription([
         RegisterEventHandler(
-        	event_handler=OnProcessExit(
-            	target_action=spawn_entity,
+            event_handler=OnProcessExit(
+                target_action=spawn_entity,
                 on_exit=[load_joint_state_controller],
             )
         ),
         RegisterEventHandler(
-        	event_handler=OnProcessExit(
+            event_handler=OnProcessExit(
                 target_action=load_joint_state_controller,
                 on_exit=[load_trajectory_controller],
             )
@@ -98,6 +122,7 @@ def generate_launch_description():
             'use_ros2_control',
             default_value='true',
             description='Use ros2_control if true'),
+        declare_world_cmd,
         node_robot_state_publisher,
         gazebo,
         spawn_entity,
