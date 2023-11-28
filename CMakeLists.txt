@@ -7,6 +7,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED COMPONENTS
+  rclcpp
   actionlib
   amcl
   control_msgs
@@ -26,9 +27,20 @@ find_package(ament_cmake REQUIRED COMPONENTS
 # find_package(<dependency> REQUIRED)
 
 # Install configuration, meshes, urdf and launch files.
-install(DIRECTORY config description launch meshes params worlds
+install(DIRECTORY config description include launch meshes params worlds
   DESTINATION share/${PROJECT_NAME}/
 )
+
+#ament_target_dependencies(mobile_robot_hardware_interface rclcpp)
+
+#add_library(i2c_ros src/i2c_ros.cpp)
+
+#add_executable(mobile_robot_hardware_interface src/robot_hardware_interface_node.cpp)
+
+#rosidl_get_typesupport_target(cpp_typesupport_target
+#  ${PROJECT_NAME} rosidl_typesupport_cpp)
+
+#target_link_libraries(mobile_robot_hardware_interface "${cpp_typesupport_target}")
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

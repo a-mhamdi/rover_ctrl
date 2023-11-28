@@ -14,18 +14,21 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <exec_depend>robot_description</exec_depend>
+  <exec_depend>ros2launch</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>rclcpp</exec_depend>
+  <exec_depend>nav2_bringup</exec_depend>
+  <exec_depend>slam_toolbox</exec_depend>
+  
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>
   <test_depend>python3-pytest</test_depend>
-  
-  <exec_depend>ros2launch</exec_depend>
-  <exec_depend>xacro</exec_depend>
-  <exec_depend>rviz</exec_depend>
-  <exec_depend>rclcpp</exec_depend>
-  
+   
   <export>
     <build_type>ament_cmake</build_type>
   </export>
