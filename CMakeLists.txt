@@ -5,31 +5,46 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
-find_package(ament_cmake REQUIRED COMPONENTS
-  rclcpp
-  actionlib
-  amcl
-  control_msgs
-  controller_manager
-  gmapping
-  move_base
-  roscpp
-  rospy
-  std_msgs
-  std_srvs
-  tf
-  tf2
-)
+################################################################################
+# Find ament packages and libraries for ament and system dependencies
+################################################################################
+find_package(ament_cmake REQUIRED)
+find_package(gazebo REQUIRED)
+find_package(gazebo_ros_pkgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(tf2 REQUIRED)
 
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-# Install configuration, meshes, urdf and launch files.
-install(DIRECTORY config description include launch meshes params worlds
-  DESTINATION share/${PROJECT_NAME}/
+################################################################################
+# Build
+################################################################################
+link_directories(
+  ${GAZEBO_LIBRARY_DIRS}
 )
+
+include_directories(
+  include
+  ${GAZEBO_INCLUDE_DIRS}
+)
+
+set(dependencies
+  "geometry_msgs"
+  "nav_msgs"
+  "rclcpp"
+  "sensor_msgs"
+  "tf2"
+)
+
+set(EXEC_NAME "rover_drive")
+
+add_executable(${EXEC_NAME} src/rover_drive.cpp)
+ament_target_dependencies(${EXEC_NAME} ${dependencies})
 
 #ament_target_dependencies(mobile_robot_hardware_interface rclcpp)
 
@@ -42,6 +57,23 @@ install(DIRECTORY config description include launch meshes params worlds
 
 #target_link_libraries(mobile_robot_hardware_interface "${cpp_typesupport_target}")
 
+
+################################################################################
+# Install
+################################################################################
+install(DIRECTORY config description launch maps meshes params worlds
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(TARGETS ${EXEC_NAME}
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY include/
+  DESTINATION include/
+)
+
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
@@ -53,5 +85,16 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+################################################################################
+# Macro for ament package
+################################################################################
+ament_export_include_directories(include)
+ament_export_dependencies(gazebo_ros_pkgs)
+ament_export_dependencies(geometry_msgs)
+ament_export_dependencies(nav_msgs)
+ament_export_dependencies(rclcpp)
+ament_export_dependencies(sensor_msgs)
+ament_export_dependencies(tf2)
 
 ament_package()
