@@ -6579,5 +6579,8 @@
         <projection_type>perspective</projection_type>
       </camera>
     </gui>
+    
+    
+   
   </world>
 </sdf>

@@ -2,17 +2,36 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rover">
 
     <xacro:arg name="use_ros2_control" default="true"/>
-    <xacro:arg name="sim_mode" default="false"/>
+    <xacro:arg name="sim_mode" default="true"/>
 
     <xacro:include filename="bot_arch.xacro" />
 
-    <!--xacro:if value="$(arg use_ros2_control)">
-        <xacro:include filename="ros2_control.xacro" />
-    </xacro:if-->
-    <!--xacro:unless value="$(arg use_ros2_control)"-->
-        <xacro:include filename="gz_ctrl.xacro" />
-    <!--/xacro:unless-->
+    <gazebo>
+      
+        <plugin name="diff_drive" filename="libgazebo_ros_diff_drive.so">
+
+            <!-- Wheel Information -->
+            <left_joint>left_wheel_joint</left_joint>
+            <right_joint>right_wheel_joint</right_joint>
+            <wheel_separation>0.297</wheel_separation>
+            <wheel_diameter>0.066</wheel_diameter>
 
 
+            <!-- Limits -->
+            <max_wheel_torque>200</max_wheel_torque>
+            <max_wheel_acceleration>10.0</max_wheel_acceleration>
+
+
+            <!-- Output -->
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>base_link</robot_base_frame>
+
+            <publish_odom>true</publish_odom>
+            <publish_odom_tf>true</publish_odom_tf>
+            <publish_wheel_tf>true</publish_wheel_tf>
+
+        </plugin>
+
+    </gazebo>
 
 </robot>
