@@ -38,11 +38,16 @@ The official and detailed documentation is accessible through this [link](https:
     ```zsh
     ros2 launch rover_ctrl launch_sim.launch.py
     ```
-- Mapping using **SLAM** toolbox
+- Mapping using **SLAM** toolbox 
     ```zsh
     ros2 launch rover_ctrl launch_slam.launch.py
     ```
-- Localization and navigation
+
+    [![DEMO](https://i9.ytimg.com/vi_webp/I0WGgt07Tbg/mq1.webp?sqp=CKD6xqsG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CIAC0AWKAgwIABABGGsgayhrMA8%3D&rs=AOn4CLCv2II7g8Q4YArBj_ToruIJLx3XWQ&retry=4)](https://youtu.be/I0WGgt07Tbg)
+  
+- Localization and navigation [](DEMO)
     ```zsh
     ros2 launch rover_ctrl launch_nav.launch.py
     ```
+
+    [![DEMO](https://i9.ytimg.com/vi/0SOzMY7_PX4/mq2.jpg?sqp=CPj-xqsG-oaymwEmCMACELQB8quKqQMa8AEB-AH-BYAC4AOKAgwIABABGCIgGSh_MA8%3D&rs=AOn4CLBJVHdk8CSKTMEqOtq7TTQFafL78A&retry=4)](https://youtu.be/0SOzMY7_PX4)
